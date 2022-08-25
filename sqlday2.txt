@@ -43,7 +43,7 @@ insert into emp(empno,ename,job,mgrid,hiredate,comm,deptno) values(7934,'Miller'
 9]select ename,sal from emp  where job='Analyst' and sal>1200 and deptno=20 order by ename desc
 
 
-10]
+10]select deptno,count(empno) as 'Total Salary' from emp group by deptno
 
 11]select sal from emp where ename='Miller' or ename= 'Smith'
 
