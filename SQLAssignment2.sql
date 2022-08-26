@@ -1,0 +1,70 @@
+create database a3;
+
+create table dept(deptno int primary key,dname varchar(20),loc varchar(20))
+
+create table emp(empno int primary key,ename varchar(20),job varchar(20),mgrid int, hiredate date,sal int,comm int,deptno int references dept(deptno))
+
+insert into dept values(10,'Accounting','New York'),(20,'Research','Dallas'),(30,'Sales','Chicago'),(40,'operations','boston')
+
+insert into emp(empno,ename,job,mgrid,hiredate,sal,comm) values(7369,'Smith','Clerk',7902,'1980-12-17',800,20),(7566,'Jones','Manager',7839,'1981-04-02',2975,20)
+
+insert into emp(empno,ename,job,mgrid,hiredate,sal,comm,deptno) values(7499,'Allen','Salesman',7698,'1981-02-20',1600,300,30),(7521,'Ward','Salesman',7698,'1981-02-22',1250,500,30)
+,(7654,'Martin','Salesman',7698,'1981-09-28',1250,1400,30),(7844,'Turner','Salesman',7698,'1981-09-08',1500,0,30)
+
+
+insert into emp(empno,ename,job,mgrid,hiredate,sal,deptno) values(7698,'Blake','Manager',7839,'1981-05-01',2850,30),(7782,'Clark','Manager',7839,'1981-06-09',2450,10),(7788,'Scott','Analyst',7566,'1987-04-19',3000,20)
+
+
+
+insert into emp(empno,ename,job,hiredate,sal,deptno) values(7839,'King','President','1981-11-17',5000,10)
+
+insert into emp(empno,ename,job,mgrid,hiredate,sal,deptno) values(7876,'Adams','Clerk',7788,'1987-05-23',1100,20)
+insert into emp(empno,ename,job,mgrid,hiredate,sal,comm) values(7900,'James','Clerk',7698,'1981-12-03',950,30),(7902,'Ford','Analyst',7566,'1981-12-03',3000,20)
+insert into emp(empno,ename,job,mgrid,hiredate,comm,deptno) values(7934,'Miller','Clerk',7782,'1982-01-23',1300,10)
+
+--1]
+select * from emp where ename like 'A%'
+
+--2]
+select * from emp where mgrid is NULL
+
+--3]
+select ename,empno,sal from emp where sal   between 1200 and 1400
+
+--4]
+update emp set sal=sal+(sal*0.10) where deptno=(select deptno from dept where dname='research')
+
+--5]
+select count(job) as Total from emp where job='Clerk'
+
+--6]
+select job as 'JOB TYPE',avg(sal) as'Avg Salary',count(empno) as 'No of Employees' from emp group by job
+
+--7]
+select min(sal) as Lowest,max(sal) as Highest from emp
+
+--8]
+select b.deptno ,count(a.deptno) from dept b left outer join emp a on a.deptno=b.deptno group by b.deptno having count(a.deptno)=0
+
+--9]
+select ename,sal from emp  where job='Analyst' and sal>1200 and deptno=20 order by ename desc
+
+--10]
+select deptno,count(empno) as 'No of Employees', sum(sal) as 'Total Salary' from emp
+group by deptno
+
+--11]
+select sal from emp where ename='Miller' or ename= 'Smith'
+
+--12]
+select ename from emp where ename like '[AM]%'
+
+--13]
+select ename,sal*12 as'Yearly Salary' from emp where ename='Smith'
+
+--14]
+select ename,empno,sal from emp where sal not  between 1200 and 1400
+
+--15]
+select count(empno) as 'No of Employees',mgrid  from emp group by mgrid having count(empno) >2
+
